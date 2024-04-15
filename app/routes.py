@@ -25,7 +25,7 @@ def message():
 @app.route('/chat')
 def chat():
     # Load data from medicine_data.xlsx
-    file_path = 'data/medicine_data.xlsx'
+    file_path = 'data/Medicine_description.xlsx'
     data = load_data(file_path)
     
     return render_template('chat.html', data=data)
