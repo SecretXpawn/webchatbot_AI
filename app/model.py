@@ -1,3 +1,4 @@
+import openai
 import pandas as pd
 import tensorflow as tf
 import requests
@@ -25,23 +26,25 @@ def classify_message(message):
     prediction = model.predict(message)
     return prediction
 
-# Example function to generate bot response using ChatGPT API
+# Function to generate bot response using ChatGPT API (GPT-3.5-turbo)
 def generate_bot_response(message):
-    url = 'https://api.openai.com/v1/completions'
-    headers = {
-        'Authorization': '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',
-        'Content-Type': 'application/json'
-    }
-    data = {
-        'model': 'text-davinci-002',
-        'messages': [
-            {
-                'role': 'user',
-                'content': message
-            }
-        ]
-    }
-    response = requests.post(url, headers=headers, json=data)
-    response_data = response.json()
-    bot_response = response_data['choices'][0]['message']['content']
-    return bot_response
+    try:
+        # Set your OpenAI API key
+        api_key = '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'
+        openai.api_key = api_key
+        
+        # Call the OpenAI API to generate a response
+        response = openai.Completion.create(
+            engine="davinci-002",  # Specify the engine (GPT-3.5-turbo)
+            prompt=message,        # User's message as prompt
+            max_tokens=100         # Maximum number of tokens in the response
+        )
+
+        # Extract the generated response from the API response
+        bot_response = response.choices[0].text.strip()
+
+        return bot_response
+    except Exception as e:
+        # Handle any exceptions that may occur during API call
+        print("Error:", e)
+        return "Sorry, I couldn't generate a response at the moment."
