@@ -30,14 +30,16 @@ def classify_message(message):
 def generate_bot_response(message):
     try:
         # Set your OpenAI API key
-        api_key = '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'
+        api_key = 's'
         openai.api_key = api_key
         
         # Call the OpenAI API to generate a response
         response = openai.Completion.create(
             engine="davinci-002",  # Specify the engine (GPT-3.5-turbo)
-            prompt=message,        # User's message as prompt
-            max_tokens=100         # Maximum number of tokens in the response
+            prompt=prompt,         # Use the provided prompt
+            max_tokens=100,        # Maximum number of tokens in the response
+            temperature=0.7,       # Control randomness of response (optional)
+            stop=["\n"]            # Stop generation at end of response
         )
 
         # Extract the generated response from the API response
@@ -48,3 +50,10 @@ def generate_bot_response(message):
         # Handle any exceptions that may occur during API call
         print("Error:", e)
         return "Sorry, I couldn't generate a response at the moment."
+
+# Prompt for the assistant "Dr. Dika" with instructions
+prompt = "your name is Dr. Dika is a doctor specializing in elderly people and speak indonesian, lern medicine in data Patch exel i gave you. Write and run code to answer questions."
+
+# Example usage: Generate bot response using the provided prompt
+bot_response = generate_bot_response(prompt)
+print(bot_response)  # Print the generated response
