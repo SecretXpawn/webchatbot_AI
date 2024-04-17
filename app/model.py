@@ -2,14 +2,10 @@ import openai
 import pandas as pd
 import tensorflow as tf
 import requests
-
-# Function to load data from Excel file
 def load_data(file_path):
     data = pd.read_excel(file_path)
-    # Process the data as needed
     return data
 
-# Example TensorFlow model
 def create_model():
     model = tf.keras.Sequential([
         tf.keras.layers.Dense(64, activation='relu', input_shape=(100,)),
@@ -18,31 +14,22 @@ def create_model():
     ])
     return model
 
-# Example function to classify user messages using TensorFlow model
 def classify_message(message):
-    # Your logic to classify user messages using TensorFlow model goes here
-    # This is just a placeholder
     model = create_model()
     prediction = model.predict(message)
     return prediction
-
-# Function to generate bot response using ChatGPT API (GPT-3.5-turbo)
 def generate_bot_response(message):
     try:
-        # Set your OpenAI API key
         api_key = 's'
         openai.api_key = api_key
-        
-        # Call the OpenAI API to generate a response
+    
         response = openai.Completion.create(
-            engine="davinci-002",  # Specify the engine (GPT-3.5-turbo)
-            prompt=prompt,         # Use the provided prompt
-            max_tokens=100,        # Maximum number of tokens in the response
-            temperature=0.7,       # Control randomness of response (optional)
-            stop=["\n"]            # Stop generation at end of response
+            engine="davinci-002",  
+            prompt=prompt,         
+            max_tokens=100,        
+            temperature=0.7,       
+            stop=["\n"]            
         )
-
-        # Extract the generated response from the API response
         bot_response = response.choices[0].text.strip()
 
         return bot_response
@@ -51,9 +38,7 @@ def generate_bot_response(message):
         print("Error:", e)
         return "Sorry, I couldn't generate a response at the moment."
 
-# Prompt for the assistant "Dr. Dika" with instructions
 prompt = "your name is Dr. Dika is a doctor specializing in elderly people and speak indonesian, lern medicine in data Patch exel i gave you. Write and run code to answer questions."
 
-# Example usage: Generate bot response using the provided prompt
 bot_response = generate_bot_response(prompt)
-print(bot_response)  # Print the generated response
+print(bot_response)  
